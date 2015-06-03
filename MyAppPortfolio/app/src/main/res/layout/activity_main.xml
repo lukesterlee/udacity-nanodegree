@@ -15,42 +15,73 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/my_title"
         android:id="@+id/textView"
- />
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="10dp" />
 
-    <Button
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/media_streamer"
-        android:id="@+id/button_spotify" />
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/super_duo1"
-        android:id="@+id/button_scores"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/super_duo2"
-        android:id="@+id/button_library" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/media_streamer"
+            android:id="@+id/button_spotify"
+            android:layout_gravity="center_horizontal"
+            android:background="#F08C35"
+            android:layout_marginBottom="10dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/ant_terminator"
-        android:id="@+id/button_build" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/super_duo1"
+            android:id="@+id/button_scores"
+            android:layout_gravity="center_horizontal"
+            android:background="#F08C35"
+            android:layout_marginBottom="10dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/materialize"
-        android:id="@+id/button_reader" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/super_duo2"
+            android:id="@+id/button_library"
+            android:layout_gravity="center_horizontal"
+            android:background="#F08C35"
+            android:layout_marginBottom="10dp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/capstone"
-        android:id="@+id/button_capstone" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ant_terminator"
+            android:id="@+id/button_build"
+            android:layout_gravity="center_horizontal"
+            android:background="#F08C35"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/materialize"
+            android:id="@+id/button_reader"
+            android:layout_gravity="center_horizontal"
+            android:background="#F08C35"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/capstone"
+            android:id="@+id/button_capstone"
+            android:layout_gravity="center_horizontal" />
+
+
+
+    </LinearLayout>
+
+
 
 </LinearLayout>

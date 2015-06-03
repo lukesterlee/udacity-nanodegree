@@ -6,6 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -22,36 +25,56 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ArrayList<Button> buttonArrayList = new ArrayList<Button>();
+
         buttonSpotify = (Button) findViewById(R.id.button_spotify);
-
         buttonScores = (Button) findViewById(R.id.button_scores);
-
         buttonLibrary = (Button) findViewById(R.id.button_library);
-
         buttonBuild = (Button) findViewById(R.id.button_build);
-
         buttonReader = (Button) findViewById(R.id.button_reader);
-
         buttonCapstone = (Button) findViewById(R.id.button_capstone);
+
+        buttonArrayList.add(buttonSpotify);
+        buttonArrayList.add(buttonScores);
+        buttonArrayList.add(buttonLibrary);
+        buttonArrayList.add(buttonBuild);
+        buttonArrayList.add(buttonReader);
+        buttonArrayList.add(buttonCapstone);
+
+        ButtonClickListener listener = new ButtonClickListener();
+
+        for (Button button : buttonArrayList) {
+            button.setOnClickListener(listener);
+        }
+
+
     }
 
     private class ButtonClickListener implements View.OnClickListener {
+
+
 
         @Override
         public void onClick(View v) {
 
             switch (v.getId()) {
                 case R.id.button_spotify:
+                    Toast.makeText(getApplicationContext(), "This button will launch my Spotify Streamer App!", Toast.LENGTH_SHORT);
                     break;
                 case R.id.button_scores:
+                    Toast.makeText(getApplicationContext(), "This button will launch my Football Scores App!", Toast.LENGTH_SHORT);
                     break;
                 case R.id.button_library:
+                    Toast.makeText(getApplicationContext(), "This button will launch my Library App!", Toast.LENGTH_SHORT);
                     break;
                 case R.id.button_build:
+                    Toast.makeText(getApplicationContext(), "This button will launch my Build It Bigger App!", Toast.LENGTH_SHORT);
                     break;
                 case R.id.button_reader:
+                    Toast.makeText(getApplicationContext(), "This button will launch my XYZ Reader App!", Toast.LENGTH_SHORT);
                     break;
                 case R.id.button_capstone:
+                    Toast.makeText(getApplicationContext(), "This button will launch my Capstone App!", Toast.LENGTH_SHORT);
                     break;
             }
 
