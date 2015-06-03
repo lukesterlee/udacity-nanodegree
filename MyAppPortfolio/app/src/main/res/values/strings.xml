@@ -11,5 +11,6 @@
     <string name="ant_terminator">Build it bigger</string>
     <string name="super_duo2">Library App</string>
     <string name="super_duo1">Scores App</string>
+    <string name="open_app">This button will launch my </string>
 
 </resources>
