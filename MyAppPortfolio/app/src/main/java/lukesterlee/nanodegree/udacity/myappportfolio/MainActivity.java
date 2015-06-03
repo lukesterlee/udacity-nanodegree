@@ -56,27 +56,27 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         public void onClick(View v) {
-
             switch (v.getId()) {
                 case R.id.button_spotify:
-                    Toast.makeText(getApplicationContext(), "This button will launch my Spotify Streamer App!", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "This button will launch my Spotify Streamer App!", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.button_scores:
-                    Toast.makeText(getApplicationContext(), "This button will launch my Football Scores App!", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "This button will launch my Football Scores App!", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.button_library:
-                    Toast.makeText(getApplicationContext(), "This button will launch my Library App!", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "This button will launch my Library App!", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.button_build:
-                    Toast.makeText(getApplicationContext(), "This button will launch my Build It Bigger App!", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "This button will launch my Build It Bigger App!", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.button_reader:
-                    Toast.makeText(getApplicationContext(), "This button will launch my XYZ Reader App!", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "This button will launch my XYZ Reader App!", Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.button_capstone:
-                    Toast.makeText(getApplicationContext(), "This button will launch my Capstone App!", Toast.LENGTH_SHORT);
+                    Toast.makeText(getApplicationContext(), "This button will launch my Capstone App!", Toast.LENGTH_SHORT).show();
                     break;
             }
+
 
         }
     }
