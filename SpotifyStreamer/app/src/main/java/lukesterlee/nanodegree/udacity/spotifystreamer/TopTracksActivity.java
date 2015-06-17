@@ -12,13 +12,15 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.util.List;
 
+import kaaes.spotify.webapi.android.models.Track;
+
 /**
  * Created by Luke on 6/10/2015.
  */
 public class TopTracksActivity extends ActionBarActivity {
 
 
-    String key = "https://api.spotify.com/v1/artists/6vWDO969PvNqNYHIOW5v0m/top-tracks?country=US";
+    String artistId;
 
     TopTrackAdapter adapter;
 
@@ -29,6 +31,8 @@ public class TopTracksActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_toptracks);
 
+        artistId = getIntent().getExtras().getString("artist");
+
         mListView = (ListView) findViewById(R.id.listView_top_tracks);
 
         new AsyncLoading().execute();
@@ -36,12 +40,12 @@ public class TopTracksActivity extends ActionBarActivity {
 
     }
 
-    private class AsyncLoading extends AsyncTask<Void, Void, List<TopTrackItem>> {
+    private class AsyncLoading extends AsyncTask<Void, Void, List<Track>> {
 
         @Override
-        protected List<TopTrackItem> doInBackground(Void... params) {
+        protected List<Track> doInBackground(Void... params) {
             try {
-                return new TopTracksGetter().getTopTracksList();
+                return new ResultGetter(artistId).getTopTracksList();
             } catch (JSONException e) {
                 Log.e("JSON", "couldn't get Json image.");
             } catch (IOException e) {
@@ -51,7 +55,7 @@ public class TopTracksActivity extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(List<TopTrackItem> topTrackList) {
+        protected void onPostExecute(List<Track> topTrackList) {
             if (topTrackList != null) {
                 adapter = new TopTrackAdapter(getApplicationContext(), R.layout.list_item_top_tracks, topTrackList);
                 mListView.setAdapter(adapter);

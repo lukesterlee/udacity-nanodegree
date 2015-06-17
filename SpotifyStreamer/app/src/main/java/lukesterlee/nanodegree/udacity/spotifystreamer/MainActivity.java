@@ -13,21 +13,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
-import kaaes.spotify.webapi.android.models.ArtistsPager;
-import kaaes.spotify.webapi.android.models.LinkedTrack;
-import kaaes.spotify.webapi.android.models.Track;
-import kaaes.spotify.webapi.android.models.Tracks;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -35,10 +26,12 @@ public class MainActivity extends ActionBarActivity {
 //    private static final String CLIENT_ID = "39e7fc61588a407bb2fb2f92e045ccb1";
 //    private static final String CLIENT_SECRET_ID = "5d27fd83b77e4438b332119203a8f89b";
 
-    EditText searchArtistEditText;
-    ListView searchResultListView;
+    EditText mEditText;
+    ListView mListView;
 
+    ArtistSearchAdapter adapter;
 
+    String artist = "";
 
     // https://api.spotify.com/v1/search?q=Beyonce&type=artist
     private static final String ENDPOINT_SEARCH = "https://api.spotify.com/v1/search?q=";
@@ -47,8 +40,6 @@ public class MainActivity extends ActionBarActivity {
     // https://api.spotify.com/v1/artists/6vWDO969PvNqNYHIOW5v0m/top-tracks?country=US
     private static final String ENDPOINT_TOP_TRACKS = "https://api.spotify.com/v1/artists/";
     private static final String TOP_TRACKS_SUFFIX = "/top-tracks?country=US";
-
-
 
 
     @Override
@@ -64,8 +55,9 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), TopTracksActivity.class);
-                startActivity(intent);
+
+                artist = mEditText.getText().toString();
+                new AsyncLoading().execute();
             }
         });
 
@@ -73,12 +65,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void initializeViews() {
-        searchArtistEditText = (EditText) findViewById(R.id.editText_search_artist);
-        searchResultListView = (ListView) findViewById(R.id.listView_search_result);
-        searchResultListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mEditText = (EditText) findViewById(R.id.editText_search_artist);
+        mListView = (ListView) findViewById(R.id.listView_search_result);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                String artistId = adapter.getArtistId(position);
+                Intent intent = new Intent(MainActivity.this, TopTracksActivity.class);
+                intent.putExtra("artist", artistId);
+                startActivity(intent);
             }
         });
     }
@@ -106,12 +101,12 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class AsyncLoading extends AsyncTask<Void, Void, List<TopTrackItem>> {
+    private class AsyncLoading extends AsyncTask<Void, Void, List<Artist>> {
 
         @Override
-        protected List<TopTrackItem> doInBackground(Void... params) {
+        protected List<Artist> doInBackground(Void... params) {
             try {
-                return new TopTracksGetter().getTopTracksList();
+                return new ResultGetter(artist).getArtistSearchList();
             } catch (JSONException e) {
                 Log.e("JSON", "couldn't get Json image.");
             } catch (IOException e) {
@@ -121,9 +116,9 @@ public class MainActivity extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(List<TopTrackItem> topTrackList) {
-            if (topTrackList != null) {
-                adapter = new TopTrackAdapter(getApplicationContext(), R.layout.list_item_top_tracks, topTrackList);
+        protected void onPostExecute(List<Artist> artistSearchList) {
+            if (artistSearchList != null) {
+                adapter = new ArtistSearchAdapter(MainActivity.this, R.layout.list_item_artist_search, artistSearchList);
                 mListView.setAdapter(adapter);
             }
         }
