@@ -14,15 +14,10 @@
         android:id="@+id/editText_search_artist"
         android:layout_gravity="center_horizontal" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="submit"
-        android:id="@+id/button_top"/>
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="380dp"
+        android:layout_height="fill_parent"
         android:id="@+id/listView_search_result"
         android:layout_gravity="center_horizontal" />
 </LinearLayout>

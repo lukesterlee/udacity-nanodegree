@@ -16,30 +16,27 @@ import kaaes.spotify.webapi.android.models.AlbumSimple;
 import kaaes.spotify.webapi.android.models.Image;
 import kaaes.spotify.webapi.android.models.Track;
 
-/**
- * Created by Luke on 6/10/2015.
- */
 public class TopTrackAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<Track> topTrackList;
+    private List<Track> mTopTrackList;
     private int mResourceLayout;
 
-    public TopTrackAdapter(Context context, int resource, List<Track> topTrackList) {
+    public TopTrackAdapter(Context context, int resource, List<Track> mTopTrackList) {
         this.mContext = context;
-        this.topTrackList = topTrackList;
+        this.mTopTrackList = mTopTrackList;
         this.mResourceLayout = resource;
     }
 
 
     @Override
     public int getCount() {
-        return topTrackList.size();
+        return mTopTrackList.size();
     }
 
     @Override
     public Track getItem(int position) {
-        return topTrackList.get(position);
+        return mTopTrackList.get(position);
     }
 
     @Override
