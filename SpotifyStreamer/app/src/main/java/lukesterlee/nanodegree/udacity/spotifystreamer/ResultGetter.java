@@ -28,12 +28,29 @@ public class ResultGetter {
         this.input = input;
     }
 
-    public List<Artist> getArtistSearchList() throws JSONException, IOException {
+    public ArrayList<MyArtist> getArtistSearchList() throws JSONException, IOException {
+        ArrayList<MyArtist> artistSearchList = new ArrayList<>();
         SpotifyApi api = new SpotifyApi();
         SpotifyService service = api.getService();
         ArtistsPager pager = service.searchArtists(input);
         Pager<Artist> artists = pager.artists;
-        return artists.items;
+        List<Artist> list = artists.items;
+        if (list.size() > 30) {
+            list = list.subList(0, 29);
+        }
+        for (Artist artist : list) {
+            MyArtist newArtist = new MyArtist();
+            List<Image> images = artist.images;
+            if (images.size() != 0) {
+                Image image = images.get(images.size() - 1);
+                newArtist.setThumbnailUrl(image.url);
+            }
+            newArtist.setArtistName(artist.name);
+            newArtist.setArtistId(artist.id);
+            artistSearchList.add(newArtist);
+        }
+
+        return artistSearchList;
     }
 
     public ArrayList<MyTrack> getTopTracksList() throws JSONException, IOException {
@@ -50,7 +67,7 @@ public class ResultGetter {
             AlbumSimple albumSimple = track.album;
             newTrack.setAlbum(albumSimple.name);
             List<Image> images = albumSimple.images;
-            Image image = images.get(images.size() - 1);
+            Image image = images.get(0);
             newTrack.setThumbnailUrl(image.url);
             newTrack.setArtist(track.artists.get(0).name);
             topTracksList.add(newTrack);

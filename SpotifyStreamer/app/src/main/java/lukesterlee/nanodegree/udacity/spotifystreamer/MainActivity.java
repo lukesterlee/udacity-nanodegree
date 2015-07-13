@@ -19,17 +19,18 @@ import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.List;
-
-import kaaes.spotify.webapi.android.models.Artist;
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    private static final String ARTIST_SEARCH_PARCELABLE_KEY = "artist_search";
     private static final int INTERVAL = 400;
+    private Toast mToast;
     private EditText mEditText;
     private ListView mListView;
     private ArtistSearchAdapter mAdapter;
+    private ArrayList<MyArtist> mArtistSearchList;
     private Runnable mArtistSearchRunnable = new Runnable() {
         @Override
         public void run() {
@@ -44,7 +45,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mToast = Toast.makeText(MainActivity.this, "There is no artist found.", Toast.LENGTH_SHORT);
         initializeViews();
+
+        if (savedInstanceState != null) {
+            mArtistSearchList = savedInstanceState.getParcelableArrayList(ARTIST_SEARCH_PARCELABLE_KEY);
+            mAdapter = new ArtistSearchAdapter(MainActivity.this, R.layout.list_item_artist_search, mArtistSearchList);
+            mListView.setAdapter(mAdapter);
+        }
     }
 
     private void initializeViews() {
@@ -83,6 +91,12 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(ARTIST_SEARCH_PARCELABLE_KEY, mArtistSearchList);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -104,10 +118,10 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class ArtistSearchTask extends AsyncTask<String, Void, List<Artist>> {
+    private class ArtistSearchTask extends AsyncTask<String, Void, ArrayList<MyArtist>> {
 
         @Override
-        protected List<Artist> doInBackground(String... params) {
+        protected ArrayList<MyArtist> doInBackground(String... params) {
             try {
                 return new ResultGetter(params[0]).getArtistSearchList();
             } catch (JSONException e) {
@@ -119,15 +133,16 @@ public class MainActivity extends ActionBarActivity {
         }
 
         @Override
-        protected void onPostExecute(List<Artist> artistSearchList) {
+        protected void onPostExecute(ArrayList<MyArtist> artistSearchList) {
+            mArtistSearchList = artistSearchList;
             if (artistSearchList != null) {
                 if (artistSearchList.size() == 0) {
-                    Toast.makeText(MainActivity.this, "There is no artist found.", Toast.LENGTH_SHORT);
-                } else if (artistSearchList.size() > 30) {
-                    artistSearchList = artistSearchList.subList(0, 29);
+                    mToast.show();
+                } else {
+                    mToast.cancel();
+                    mAdapter = new ArtistSearchAdapter(MainActivity.this, R.layout.list_item_artist_search, mArtistSearchList);
+                    mListView.setAdapter(mAdapter);
                 }
-                mAdapter = new ArtistSearchAdapter(MainActivity.this, R.layout.list_item_artist_search, artistSearchList);
-                mListView.setAdapter(mAdapter);
             }
         }
     }
@@ -137,7 +152,6 @@ public class MainActivity extends ActionBarActivity {
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
         }
-
         @Override
         public void onTextChanged(CharSequence charSequence, int position, int i2, int i3) {
             if (charSequence.length() != 0) {
@@ -146,7 +160,6 @@ public class MainActivity extends ActionBarActivity {
                 handler.postDelayed(mArtistSearchRunnable, INTERVAL);
             }
         }
-
         @Override
         public void afterTextChanged(Editable editable) {
 
