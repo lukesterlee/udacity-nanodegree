@@ -2,9 +2,9 @@ package lukesterlee.nanodegree.udacity.spotifystreamer;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -137,6 +137,7 @@ public class MainActivity extends ActionBarActivity {
         public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
 
         }
+
         @Override
         public void onTextChanged(CharSequence charSequence, int position, int i2, int i3) {
             if (charSequence.length() != 0) {
@@ -145,6 +146,7 @@ public class MainActivity extends ActionBarActivity {
                 handler.postDelayed(mArtistSearchRunnable, INTERVAL);
             }
         }
+
         @Override
         public void afterTextChanged(Editable editable) {
 

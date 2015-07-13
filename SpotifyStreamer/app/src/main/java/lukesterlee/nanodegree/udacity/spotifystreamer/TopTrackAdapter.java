@@ -12,22 +12,18 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import kaaes.spotify.webapi.android.models.AlbumSimple;
-import kaaes.spotify.webapi.android.models.Image;
-import kaaes.spotify.webapi.android.models.Track;
-
 public class TopTrackAdapter extends BaseAdapter {
-
     private Context mContext;
-    private List<Track> mTopTrackList;
+    private List<MyTrack> mTopTrackList;
     private int mResourceLayout;
+    private LayoutInflater mInflater;
 
-    public TopTrackAdapter(Context context, int resource, List<Track> mTopTrackList) {
+    public TopTrackAdapter(Context context, int resource, List<MyTrack> mTopTrackList) {
         this.mContext = context;
         this.mTopTrackList = mTopTrackList;
         this.mResourceLayout = resource;
+        mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
 
     @Override
     public int getCount() {
@@ -35,7 +31,7 @@ public class TopTrackAdapter extends BaseAdapter {
     }
 
     @Override
-    public Track getItem(int position) {
+    public MyTrack getItem(int position) {
         return mTopTrackList.get(position);
     }
 
@@ -46,27 +42,16 @@ public class TopTrackAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(mResourceLayout, parent, false);
+            convertView = mInflater.inflate(mResourceLayout, parent, false);
         }
-
-        Track item = getItem(position);
-
-        ImageView  albumCover = (ImageView) convertView.findViewById(R.id.imageView);
+        MyTrack item = getItem(position);
+        ImageView albumCover = (ImageView) convertView.findViewById(R.id.imageView);
         TextView track = (TextView) convertView.findViewById(R.id.textView_song);
         TextView album = (TextView) convertView.findViewById(R.id.textView_album);
-
-        AlbumSimple albumSimple = item.album;
-        List<Image> images = albumSimple.images;
-        Image image = images.get(images.size()-1);
-
-        track.setText(item.name);
-        album.setText(albumSimple.name);
-
-        Picasso.with(mContext).load(image.url).resize(200,200).centerCrop().into(albumCover);
-
+        track.setText(item.getTrack());
+        album.setText(item.getAlbum());
+        Picasso.with(mContext).load(item.getThumbnailUrl()).resize(200, 200).centerCrop().into(albumCover);
         return convertView;
     }
 }

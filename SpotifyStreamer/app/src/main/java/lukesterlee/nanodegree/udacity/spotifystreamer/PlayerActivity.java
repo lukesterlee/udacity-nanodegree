@@ -14,7 +14,6 @@ public class PlayerActivity extends ActionBarActivity {
     private TextView mTextViewAlbum;
     private TextView mTextViewTrack;
     private ImageView mImageViewThumbNail;
-    private TextView mTextViewDuration;
     private Bundle mBundle;
     private String mArtistName;
     private String mAlbumName;
@@ -60,7 +59,6 @@ public class PlayerActivity extends ActionBarActivity {
         mTextViewAlbum.setText(mAlbumName);
         mTextViewTrack.setText(mTrackName);
     }
-
 
 
     @Override

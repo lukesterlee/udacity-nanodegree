@@ -13,7 +13,6 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import kaaes.spotify.webapi.android.models.Artist;
-import kaaes.spotify.webapi.android.models.Followers;
 import kaaes.spotify.webapi.android.models.Image;
 
 /**
@@ -67,10 +66,10 @@ public class ArtistSearchAdapter extends BaseAdapter {
 
         List<Image> images = item.images;
         if (images.size() != 0) {
-            Image image = images.get(images.size()-1);
-            Picasso.with(mContext).load(image.url).resize(200,200).centerCrop().into(artistCover);
+            Image image = images.get(images.size() - 1);
+            Picasso.with(mContext).load(image.url).resize(200, 200).centerCrop().into(artistCover);
         } else {
-            Picasso.with(mContext).load(R.drawable.artist).resize(200,200).centerCrop().into(artistCover);
+            Picasso.with(mContext).load(R.drawable.artist).resize(200, 200).centerCrop().into(artistCover);
         }
 
         artistName.setText(item.name);
